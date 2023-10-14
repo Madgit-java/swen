@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:swen/pages/travel.dart';
-import 'package:swen/pages/travel.dart';
 import 'package:swen/widgets/search_widget.dart';
 import 'package:swen/widgets/small_card.dart';
 import 'package:swen/widgets/text_body.dart';
@@ -11,7 +9,6 @@ import '../widgets/build_icon.dart';
 import '../widgets/progress_container.dart';
 import 'my_home_page.dart';
 
-final GlobalKey<MyHomePageState> homePageKey = GlobalKey<MyHomePageState>();
 
 class Travel extends StatefulWidget {
   const Travel({super.key});
@@ -38,11 +35,9 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    final myHomePageState = MyHomePage.homePageKey.currentState;
-    myHomePageState?.startAnimation();
+    _controller.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final animation = Tween<Offset>(
@@ -135,8 +130,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                             );
                           },
                           child: progressContainers[index],
-                        )
-                        ;
+                        );
                       },
                     ),
                   )

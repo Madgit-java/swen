@@ -8,7 +8,6 @@ import '../widgets/build_icon.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-  static final GlobalKey<MyHomePageState> homePageKey = GlobalKey();
   @override
   State<MyHomePage> createState() => MyHomePageState();
 }
@@ -29,6 +28,16 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     startAnimation();
   }
+
+  @override
+  void didUpdateWidget(covariant MyHomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (!selected) {
+      startAnimation();
+    }
+  }
+
 
   @override
   void dispose() {
