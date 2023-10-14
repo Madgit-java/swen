@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import 'pages/my_home_page.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         debugShowMaterialGrid: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
+        theme: ThemeData(textTheme: GoogleFonts.spaceGroteskTextTheme(),
           useMaterial3: true,
         ),
         home: const MyHomePage(),
