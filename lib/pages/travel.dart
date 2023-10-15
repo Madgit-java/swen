@@ -55,7 +55,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
     ];
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
               return const MyHomePage();
@@ -109,7 +109,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                                     },
                                     child: Image.asset('assets/arrow.png'),
                                   ),
-                                  TitleText(text: "Travel"),
+                                  const TitleText(text: "Travel"),
                                 ],
                               ),
                             ),
