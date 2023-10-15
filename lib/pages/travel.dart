@@ -55,8 +55,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
     ];
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
+        Navigator.of(context).push(
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
               return const MyHomePage();
@@ -82,7 +81,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
         // Navigator.push(context, MaterialPageRoute(builder: (context) {
         //   return const MyHomePage();
         // }));
-        // Navigator.of(context).pop();
+
         return true;
       },
       child: Scaffold(
