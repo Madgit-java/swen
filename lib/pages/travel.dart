@@ -104,12 +104,12 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                        return MyHomePage();
+                                        return const MyHomePage();
                                       }));
                                     },
                                     child: Image.asset('assets/arrow.png'),
                                   ),
-                                  const Positioned(left: 70, child: TitleText(text: "Travel")),
+                                  TitleText(text: "Travel"),
                                 ],
                               ),
                             ),
