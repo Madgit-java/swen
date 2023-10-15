@@ -53,68 +53,65 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
       ProgressContainer(textLeft: "32", textRight: "Public transport \n23%", precent: 23.w),
       ProgressContainer(textLeft: "14", textRight: "Bicycle \n7%", precent: 7.w),
     ];
-    return Scaffold(backgroundColor: const Color(0xffe6dbf9),
-      body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              color: const Color(0xffe6dbf9),
-              child:  Column(
-                children: [
-                  const SizedBox(height: 10,),
-                  SizedBox(width: MediaQuery.of(context).size.width, height: 50,
-                    child: Stack(alignment: Alignment.center,
-                      children: [
-                        Positioned(left: 22,
-                          child: SlideTransition(
-                            position: animation,
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Image.asset('assets/arrow.png'),
-                                ),
-                                const Positioned(left: 70, child: TitleText(text: "Travel")),
-                              ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return MyHomePage();
+        }));
+        // Navigator.of(context).pop();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffe6dbf9),
+        body: SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                color: const Color(0xffe6dbf9),
+                child:  Column(
+                  children: [
+                    const SizedBox(height: 10,),
+                    SizedBox(width: MediaQuery.of(context).size.width, height: 50,
+                      child: Stack(alignment: Alignment.center,
+                        children: [
+                          Positioned(left: 22,
+                            child: SlideTransition(
+                              position: animation,
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                        return MyHomePage();
+                                      }));
+                                    },
+                                    child: Image.asset('assets/arrow.png'),
+                                  ),
+                                  const Positioned(left: 70, child: TitleText(text: "Travel")),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(right: 20, child: Image.asset('assets/circle_tr.png',),),
-                        Positioned(right: 20, child: Image.asset('assets/travel_icon.png',),),
-                      ],
+                          Positioned(right: 20, child: Image.asset('assets/circle_tr.png',),),
+                          Positioned(right: 20, child: Image.asset('assets/travel_icon.png',),),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 15,),
-                  const SearchWidget(),
-                  const SizedBox(height: 5,),
-                  const TextBody(text: '234', plusShow: false,),
-                  const SizedBox(height: 15,),
-                  SizedBox(height: 200,
-                    child: ListView.builder(
-                      itemCount: progressContainers.length,
-                      itemBuilder: (context, index) {
-                        return AnimatedBuilder(
-                          animation: _controller,
-                          builder: (context, child) {
-                            return FadeTransition(
-                              opacity: Tween<double>(
-                                begin: 0.0,
-                                end: 1.0,
-                              ).animate(
-                                CurvedAnimation(
-                                  parent: _controller,
-                                  curve: Interval(
-                                    (index + 1) / progressContainers.length,
-                                    1.0,
-                                    curve: Curves.easeInOut,
-                                  ),
-                                ),
-                              ),
-                              child: SlideTransition(
-                                position: Tween<Offset>(
-                                  begin: const Offset(0.0, 1.0),
-                                  end: const Offset(0.0, 0.0),
+                    const SizedBox(height: 15,),
+                    const SearchWidget(),
+                    const SizedBox(height: 5,),
+                    const TextBody(text: '234', plusShow: false,),
+                    const SizedBox(height: 15,),
+                    SizedBox(height: 200,
+                      child: ListView.builder(
+                        itemCount: progressContainers.length,
+                        itemBuilder: (context, index) {
+                          return AnimatedBuilder(
+                            animation: _controller,
+                            builder: (context, child) {
+                              return FadeTransition(
+                                opacity: Tween<double>(
+                                  begin: 0.0,
+                                  end: 1.0,
                                 ).animate(
                                   CurvedAnimation(
                                     parent: _controller,
@@ -125,20 +122,35 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                                child: child,
-                              ),
-                            );
-                          },
-                          child: progressContainers[index],
-                        );
-                      },
-                    ),
-                  )
-                ],
+                                child: SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(0.0, 1.0),
+                                    end: const Offset(0.0, 0.0),
+                                  ).animate(
+                                    CurvedAnimation(
+                                      parent: _controller,
+                                      curve: Interval(
+                                        (index + 1) / progressContainers.length,
+                                        1.0,
+                                        curve: Curves.easeInOut,
+                                      ),
+                                    ),
+                                  ),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: progressContainers[index],
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+      ),
     );
   }
 }

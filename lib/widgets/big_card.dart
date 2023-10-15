@@ -16,7 +16,7 @@ class BigCard extends StatelessWidget {
         Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) {
