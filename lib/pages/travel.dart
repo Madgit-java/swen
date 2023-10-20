@@ -11,7 +11,11 @@ import 'my_home_page.dart';
 
 
 class Travel extends StatefulWidget {
-  const Travel({super.key});
+  const Travel({super.key, this.color, this.text, this.textBody});
+
+  final color;
+  final text;
+  final textBody;
 
   @override
   State<Travel> createState() => _TravelState();
@@ -26,7 +30,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 800),
     );
 
     _controller.forward();
@@ -53,43 +57,12 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
       ProgressContainer(textLeft: "32", textRight: "Public transport \n23%", precent: 23.w),
       ProgressContainer(textLeft: "14", textRight: "Bicycle \n7%", precent: 7.w),
     ];
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const MyHomePage();
-            },
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              const begin = Offset(1.0, -1.0);
-              const end = Offset.zero;
-              const curve = Curves.easeInOut;
-
-              var tween = Tween(begin: begin, end: end).chain(
-                CurveTween(curve: curve),
-              );
-
-              var offsetAnimation = animation.drive(tween);
-
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            },
-          ),
-        );
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return const MyHomePage();
-        // }));
-
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: const Color(0xffe6dbf9),
+    return Scaffold(
+        backgroundColor: widget.color,
         body: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                color: const Color(0xffe6dbf9),
+                color: widget.color,
                 child:  Column(
                   children: [
                     const SizedBox(height: 10,),
@@ -109,7 +82,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                                     },
                                     child: Image.asset('assets/arrow.png'),
                                   ),
-                                  const TitleText(text: "Travel"),
+                                  TitleText(text: widget.text),
                                 ],
                               ),
                             ),
@@ -122,7 +95,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                     const SizedBox(height: 15,),
                     const SearchWidget(),
                     const SizedBox(height: 5,),
-                    const TextBody(text: '234', plusShow: false,),
+                    TextBody(text: widget.textBody, plusShow: false, controllerPlus: _controller,),
                     const SizedBox(height: 15,),
                     SizedBox(height: 200,
                       child: ListView.builder(
@@ -147,7 +120,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                                 ),
                                 child: SlideTransition(
                                   position: Tween<Offset>(
-                                    begin: const Offset(0.0, 1.0),
+                                    begin: const Offset(0.0, 5.0),
                                     end: const Offset(0.0, 0.0),
                                   ).animate(
                                     CurvedAnimation(
@@ -172,8 +145,7 @@ class _TravelState extends State<Travel> with TickerProviderStateMixin {
                 ),
               ),
             ),
-          ),
-      ),
+          )
     );
   }
 }

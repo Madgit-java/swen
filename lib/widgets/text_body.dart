@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class TextBody extends StatefulWidget {
-  const TextBody({super.key, this.text, this.plusShow = true,});
+  const TextBody({super.key, this.text, this.plusShow = true, this.controllerPlus,});
 
   final text;
   final plusShow;
+  final controllerPlus;
 
   @override
   State<TextBody> createState() => _TextBodyState();
 }
 
-class _TextBodyState extends State<TextBody> {
+class _TextBodyState extends State<TextBody> with TickerProviderStateMixin {
 
   final PageController _controller = PageController(initialPage: 0);
   int _currentPage = 0;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +34,13 @@ class _TextBodyState extends State<TextBody> {
 
   @override
   Widget build(BuildContext context) {
+    final animation = Tween<Offset>(
+      begin: const Offset(5.0, 0.0),
+      end: const Offset(3.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: widget.controllerPlus,
+      curve: Curves.easeInOut,
+    ));
     widgetText(){
       return Stack(
         alignment: Alignment.center,
@@ -61,12 +70,13 @@ class _TextBodyState extends State<TextBody> {
             ),
           ),
          widget.plusShow
-             ? Positioned(right: 20,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: Image.asset('assets/plus.png',),
-            ),
-          )
+             ? SlideTransition(
+           position: animation,
+               child: Padding(
+                   padding: const EdgeInsets.only(right: 10.0),
+                   child: Image.asset('assets/plus.png',),
+               ),
+             )
              : const SizedBox.shrink(),
         ],
       );

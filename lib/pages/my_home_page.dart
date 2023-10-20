@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:swen/widgets/search_widget.dart';
 import 'package:swen/widgets/small_card.dart';
 import 'package:swen/widgets/text_body.dart';
@@ -25,8 +26,8 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
     startAnimation();
+    super.initState();
   }
 
   @override
@@ -38,7 +39,6 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
   }
 
-
   @override
   void dispose() {
     _controller.dispose();
@@ -46,13 +46,11 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-
   void startAnimation() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 800),
     );
-
     _controller.forward();
     selected = true;
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -60,7 +58,6 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         selected = false;
       });
     });
-
   }
 
   @override
@@ -72,37 +69,47 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       parent: _controller,
       curve: Curves.easeInOut,
     ));
+    final column = Tween<Offset>(
+      begin: const Offset(0.0, -0.1),
+      end: const Offset(0.0, 0.12),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
     return Scaffold(
       body: SafeArea(
         child: Container(
+          height: 100.h,
           color: const Color(0xfff8f7f8),
-          child: Column(
+          child: ListView(
+            padding: const EdgeInsets.only(bottom: 200),
             children: [
               const SizedBox(height: 10,),
               SlideTransition(
-                  position: animation,child: const TitleText(text: "Overview",)),
+                  position: animation,
+                  child: const TitleText(text: "Overview",)),
               const SizedBox(height: 15,),
               const SearchWidget(),
               const SizedBox(height: 5,),
-              SizedBox(height: MediaQuery.of(context).size.height - 255,
-                child: Stack(
-                  children: [
-                    const TextBody(text: "1 263",),
-                    AnimatedPositioned(
-                        width: MediaQuery.of(context).size.width ,
-                        top: selected ? 0.0 : 100.0,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.fastOutSlowIn,
-                        child: const Column(
+              Stack(
+                children: [
+                  TextBody(text: "1 263", controllerPlus: _controller),
+                  SlideTransition(
+                      position: column,
+                       child: Column(
                           children: [
-                            BigCard(),
-                            SizedBox(height: 6,),
-                            SmallCard()
+                            BigCard(fun: (_){
+                              _controller.reset();
+                              _controller.forward();},),
+                            const SizedBox(height: 6,),
+                            SmallCard(fun: (_) {
+                            _controller.reset();
+                            _controller.forward();},),
+                            const SizedBox(height: 20,),
+                            const Placeholder(),
                           ],
                         )),
-                    //  SizedBox(height: 6,),
-                  ],
-                ),
+                ],
               ),
              // SizedBox(height: 15,),
             ],

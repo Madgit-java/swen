@@ -1,66 +1,48 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../pages/travel.dart';
 import 'card_container.dart';
+import 'open_container.dart';
 
 class BigCard extends StatelessWidget {
-  const BigCard({super.key});
+  const BigCard({super.key, required this.fun});
+
+  final Function(Never?) fun;
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
       children: [
         const SizedBox(
           width: 6,
         ),
         Expanded(
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                      return const Travel();
-                    },
-                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                      const begin = Offset(1.0, -1.0);
-                      const end = Offset.zero;
-                      const curve = Curves.easeInOut;
-
-                      var tween = Tween(begin: begin, end: end).chain(
-                        CurveTween(curve: curve),
-                      );
-
-                      var offsetAnimation = animation.drive(tween);
-
-                      return SlideTransition(
-                        position: offsetAnimation,
-                        child: child,
-                      );
-                    },
-                  ),
-                );
-              },
-              child: const CardContainer(
-                color: Color(0xffe6dbf9),
-                image: 'assets/travel_icon.png',
-                text: 'Travel',
-                subText: "234",
-              ),
-            ),
-
-
+            child: createOpenContainer(const Travel(color: Color(0xffe6dbf9), text: 'Travel', textBody: '234',),
+                const CardContainer(
+              color: Color(0xffe6dbf9),
+              image: 'assets/travel_icon.png',
+              text: 'Travel',
+              subText: "234",
+            ), fun),
         ),
         const SizedBox(
           width: 6,
         ),
-        const Expanded(
-            child: CardContainer(
-          color: Color(0xffdef1d9),
-          image: 'assets/food_icon.png',
-          text: 'Food',
-          subText: "727",
-        )),
+        Expanded(
+            child:
+            createOpenContainer(
+                const Travel(color: Color(0xffdef1d9), text: 'Food', textBody: '727',),
+                const CardContainer(
+              color: Color(0xffdef1d9),
+              image: 'assets/food_icon.png',
+              text: 'Food',
+              subText: "727",
+            ),
+                fun),
+           ),
         const SizedBox(
           width: 6,
         ),
@@ -68,3 +50,4 @@ class BigCard extends StatelessWidget {
     );
   }
 }
+
